@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class PostData : System.Web.UI.Page
+public partial class PostTicket : System.Web.UI.Page
 {
     string UserName = "";
     string Password = "";
@@ -16,22 +16,21 @@ public partial class PostData : System.Web.UI.Page
         validate = new Validate();
         string UserName = Session["UserName"].ToString();
         string Password = Session["Pwd"].ToString();
-        if (validate.GetRole(UserName, Password) != "Karomi")
+        if (validate.GetRole(UserName, Password) != "Client")
         {
             Response.Redirect("Exit.aspx");
         }
         else
         {
-            
+
         }
     }
-
     protected void Submit(object sender, EventArgs e)
     {
-        content.PostedFile.SaveAs(@"c:\Users\Jebin\source\repos\OnlineFS\Upload\"+content.FileName);
+        pcontent.PostedFile.SaveAs(@"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName);
     }
 
-    protected void Logout(object sender, EventArgs e)
+    protected void TicketLogOut(object sender, EventArgs e)
     {
         Session["UserName"] = "";
         Session["Pwd"] = "";

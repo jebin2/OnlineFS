@@ -53,6 +53,7 @@
             </asp:TableRow>
         </asp:Table>
         </div>
+        <asp:Button ID="Button1" runat="server" OnClick="Logout" Text="Logout" />
     </form>
 </body>
 </html>
