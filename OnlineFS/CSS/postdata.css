@@ -1,0 +1,11 @@
+﻿.Textbox {
+    width: 100%;
+}
+.Label {
+    width: 100%;
+    float: right;
+}
+#Table1{
+    margin-top : 60px;
+    margin-left : 60px;
+}
