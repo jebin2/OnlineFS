@@ -53,7 +53,8 @@
         </asp:Table>
         </div>
         <p>
-            <asp:Button ID="Button1" runat="server" OnClick="TicketLogOut" Text="Logout" />
+            <asp:Button ID="Button1" runat="server" OnClick="TicketLogOut" Text="Logout" /></br>
+              <asp:Button ID="Mail" runat="server" OnClick="SendMail" Text="Mail" />
         </p>
     </form>
 </body>
