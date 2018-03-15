@@ -46,6 +46,7 @@ public class Validate
                 sqlDataReader.Close();
                 return "Please Register";
             }
+            database.close();
         }
         return "Username or Password is Empty";
     }

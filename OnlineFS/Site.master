@@ -1,12 +1,15 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head>
     <title>Company</title>
-    <link href="css/my.css" rel="stylesheet" type="text/css" />
+    <link href="css/masterpage.css" rel="stylesheet" type="text/css" />
      <link rel="stylesheet" href="css/register.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="css/postdata.css" media="screen" type="text/css" />
+
+
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -14,16 +17,16 @@
     <form id="form1" runat="server">
         <div class="page">
             <div class="header">
-                <div class="title">
+                <div class="titles">
                     <h1>Company Profile</h1>
                 </div>
             </div>
-      
+
             <ul id="topnav">
                  <asp:HyperLink Class="button"  runat="server" NavigateUrl="/Default.aspx">Login</asp:HyperLink>
                 <asp:HyperLink Class="button"  runat="server" NavigateUrl="/Register.aspx">Register</asp:HyperLink>
                 <asp:HyperLink Class="button"  runat="server" NavigateUrl="/Admin.aspx">Admin</asp:HyperLink>
-            
+
             </ul>
             </div>
         <div>
@@ -36,10 +39,3 @@
     </form>
 </body>
 </html>
-
-
-
-
-
- 
-
