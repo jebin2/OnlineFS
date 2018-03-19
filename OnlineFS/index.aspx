@@ -51,8 +51,8 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-          <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
+          <h1 class="my-4">Posts
+            <small>Forms</small>
           </h1>
 
           <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
@@ -192,6 +192,38 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </form>
+<script type="text/javascript">
+// <![CDATA[
+// var theForm = document.forms['postticket'];
+// if (!theForm) {
+//     theForm = document.postticket;
+// }
+// function myFunction(eventTarget, eventArgument) {
+//     if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+//       theForm.__EVENTTARGET.value = eventTarget;
+//         theForm.__EVENTARGUMENT.value = eventArgument;
+//         theForm.submit();
+//     }
+// }
+// // function mya_mya(a){
+// try {
+//   var __original= __doPostBack;
+//   __doPostBack = myFunction($(this).id(),$("#comment").val());
+// }
+// catch(err) {
+//
+// }
+// var theForm = document.forms['postticket'];
+// if (!theForm) {
+//   theForm = document.postticket;
+// }
+// theForm.__EVENTTARGET.value = $("#comment").val();
+$("#comment").change(function(){
+    document.cookie = "comment="+ $("#comment").val();
+  })
+// $("#10002").click()
+</script>
+
   </body>
 
 </html>

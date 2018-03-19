@@ -13,11 +13,36 @@ public partial class Index : System.Web.UI.Page
     Database database;
     Validate validate;
     string Role = "";
+    string GUID = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
         validate = new Validate();
         database = new Database();
+        //mya_mya();
+        // if(Request["__EVENTARGUMENT"] == "mya1"){
+        //   mya_mya( this, new EventArgs( ) );
+        // }
+        // if (Request["__EVENTTARGET"] == GUID)
+        // {
+        //ClientScript.GetPostBackEventReference(this, string.Empty);
+        string comment = "";
+          string parameter = Request["__EVENTTARGET"];
+          if(Request.Cookies["comment"]!=null)
+          {
+            comment = Request.Cookies["comment"].Value;
+          }
+          if(parameter!=null){
+          if(parameter.ToString().Length>3){
+            HttpContext.Current.Response.AppendToLog("deliveredasdSearchSearch");
+            add_comment( this, new EventArgs( ) ,parameter,comment);
+          }else{
+            mya_mya( this, new EventArgs( ) ,parameter);
+          }
+        }else{
+            mya_mya( this, new EventArgs( ) ,parameter);
+        }
+        // }
     }
 
     protected void Login(object sender, EventArgs e)
@@ -27,7 +52,7 @@ public partial class Index : System.Web.UI.Page
 
     protected void SearchButton(object sender, EventArgs e){
       string Search = search.Text;
-      string[] Output = new string[]{"title,","username,","cost",",keyword"};
+      string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
       string Table = "info";
       string Condition = " where keyword like '%"+Search+"%' or title like '%"+Search+"%' order by cost DESC";
       database.open();
@@ -35,15 +60,17 @@ public partial class Index : System.Web.UI.Page
       rptItems.DataSource = yourDataItems;
       rptItems.DataBind();*/
       SqlDataReader sqlDataReader = database.SelectQuery(Output,Table,Condition);
-      if(sqlDataReader.HasRows){
-        sqlDataReader.Read();
-        displaydata(sqlDataReader.GetString(0).ToString(),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(3).ToString());
+      while(sqlDataReader.Read()/*HasRows*/){
+        //sqlDataReader.Read();
+        //displaydata(sqlDataReader.GetString(0).ToString(),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(3).ToString());
+        displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+        //displaydata(sqlDataReader.GetString(1),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(5).ToString());
       }
     }
 
-    protected void displaydata(string title, string username,string content){
+    protected void displaydata(string id, string title, string username,string content){
       HtmlGenericControl myDiv = new HtmlGenericControl("div");
-            myDiv.ID = "myDiv";
+            myDiv.ID = "myDiv" + Guid.NewGuid().ToString("N");
             myDiv.Attributes["class"] = "card mb-4";
             /*LinkButton myLnkBtn = new LinkButton();
             myLnkBtn.ID = "myLnkBtn";
@@ -51,40 +78,45 @@ public partial class Index : System.Web.UI.Page
             myLnkBtn.Text = "I'm dynamic";
             myDiv.Controls.Add(myLnkBtn);*/
       HtmlGenericControl myDiv1 = new HtmlGenericControl("div");
-            myDiv1.ID = "myDiv1";
+            myDiv1.ID = "myDiv1" + Guid.NewGuid().ToString("N");
             myDiv1.Attributes["class"] = "card-img-top";
 
       HtmlGenericControl myDiv2 = new HtmlGenericControl("div");
-            myDiv2.ID = "myDiv2";
+            myDiv2.ID = "myDiv2" + Guid.NewGuid().ToString("N");
             myDiv2.Attributes["class"] = "card-body";
 
       HtmlGenericControl myH2 = new HtmlGenericControl("h2");
-            myH2.ID = "cardtitle1";
+            myH2.ID = "cardtitle1" + Guid.NewGuid().ToString("N");
             myH2.Attributes["class"] = "card-title";
             myH2.InnerHtml = title;
             myDiv2.Controls.Add(myH2);
 
       HtmlGenericControl myp = new HtmlGenericControl("p");
-            myp.ID = "cardtitle1";
+            myp.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
             myp.Attributes["class"] = "card-text";
             myp.InnerHtml = content;
             myDiv2.Controls.Add(myp);
 
-      HtmlGenericControl mya = new HtmlGenericControl("a");
-            mya.ID = "mya1";
-            mya.Attributes["href"] = "#";
+      //HtmlGenericControl mya = new HtmlGenericControl("Button");
+
+            LinkButton mya = new LinkButton();
+            mya.ID = id;
+            //mya.Click += new EventHandler(mya_mya);
+            //mya.Attributes["runat"] = "server";
+            //mya.Attributes["OnClick"]="mya_mya();";
             mya.Attributes["class"] = "btn btn-primary";
-            mya.InnerHtml = "Read More &rarr;";
+
+            mya.Text = "Read More &rarr;";
             myDiv2.Controls.Add(mya);
 
             myDiv1.Controls.Add(myDiv2);
 
             HtmlGenericControl myDiv3 = new HtmlGenericControl("div");
-                  myDiv3.ID = "myDiv3";
+                  myDiv3.ID = "myDiv3" + Guid.NewGuid().ToString("N");
                   myDiv3.Attributes["class"] = "card-footer text-muted";
                   myDiv3.InnerHtml = username;
             HtmlGenericControl mya1 = new HtmlGenericControl("a");
-                  mya1.ID = "mya11";
+                  mya1.ID = "mya11" + Guid.NewGuid().ToString("N");
                   mya1.Attributes["href"] = "#";
                   mya1.InnerHtml = "Start Bootstrap";
                   myDiv3.Controls.Add(mya1);
@@ -92,10 +124,127 @@ public partial class Index : System.Web.UI.Page
             myDiv1.Controls.Add(myDiv3);
             myDiv.Controls.Add(myDiv1);
             PlaceHolder1.Controls.Add(myDiv);
+            HttpContext.Current.Response.AppendToLog("deliveredasdSearch1");
     }
 
-    void myLnkBtn_Click(object sender, EventArgs e)
+    protected void mya_mya(object sender, EventArgs e,string parameter)
         {
-            Response.Write(DateTime.Now.ToString());
+
+          PlaceHolder1.Controls.Clear();
+          string Search = "";
+          string Condition = "";
+          //HttpContext.Current.Response.AppendToLog("deliveredasdSearch" + Search);
+          // LinkButton lnk = sender as LinkButton;
+          // if(lnk!=null){
+          //     Search = lnk.ID.ToString();
+          // }
+          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string Table = "info";
+          SqlDataReader sqlDataReader;
+          database.open();
+          if(parameter!=null){
+              Search = parameter.ToString();
+              Condition = " where id = '"+Search+"'order by cost DESC";
+              sqlDataReader = database.SelectQuery(Output,Table,Condition);
+              while(sqlDataReader.Read()){
+                //sqlDataReader.Read();
+                displayfulldata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+              }
+          }else{
+            sqlDataReader = database.SelectQuery(Output,Table,Condition);
+            while(sqlDataReader.Read()){
+              //sqlDataReader.Read();
+              displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+            }
+          }
+        }
+
+        protected void displayfulldata(string id, string title, string username,string content){
+
+          HtmlGenericControl myp = new HtmlGenericControl("p");
+                myp.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
+                myp.Attributes["class"] = "lead";
+                myp.InnerHtml = "by "+username;
+          PlaceHolder1.Controls.Add(myp);
+
+          HtmlGenericControl myhr = new HtmlGenericControl("hr");
+          PlaceHolder1.Controls.Add(myhr);
+          HtmlGenericControl myp1 = new HtmlGenericControl("p");
+                  myp1.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
+                  myp1.InnerHtml = "Posted on January 1, 2018 at 12:00 PM";
+          PlaceHolder1.Controls.Add(myp1);
+          HtmlGenericControl myhr1 = new HtmlGenericControl("hr");
+          PlaceHolder1.Controls.Add(myhr1);
+          HtmlGenericControl myp3 = new HtmlGenericControl("p");
+                myp3.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
+                myp3.Attributes["class"] = "lead";
+                myp3.InnerHtml = content;
+          PlaceHolder1.Controls.Add(myp3);
+          HtmlGenericControl myhr2 = new HtmlGenericControl("hr");
+          PlaceHolder1.Controls.Add(myhr2);
+          HtmlGenericControl myDiv1 = new HtmlGenericControl("div");
+                myDiv1.ID = "myDiv1" + Guid.NewGuid().ToString("N");
+                myDiv1.Attributes["class"] = "card my-4";
+                HtmlGenericControl myh5 = new HtmlGenericControl("h5");
+                      myh5.ID = "myDiv1" + Guid.NewGuid().ToString("N");
+                      myh5.Attributes["class"] = "card-header";
+                      myh5.InnerHtml = "Leave a Comment:";
+                      myDiv1.Controls.Add(myh5);
+                      HtmlGenericControl myDiv2 = new HtmlGenericControl("div");
+                            myDiv2.ID = "myDiv2" + Guid.NewGuid().ToString("N");
+                            myDiv2.Attributes["class"] = "card-body";
+                            HtmlGenericControl form = new HtmlGenericControl("form");
+                                    HtmlGenericControl myDiv3 = new HtmlGenericControl("div");
+                                          myDiv3.ID = "myDiv3" + Guid.NewGuid().ToString("N");
+                                          myDiv3.Attributes["class"] = "form-group";
+                                          HtmlGenericControl textarea = new HtmlGenericControl("textarea");
+                                                textarea.Attributes["class"] = "form-control";
+                                                textarea.ID = "comment";
+                                          myDiv3.Controls.Add(textarea);
+                                          LinkButton mya = new LinkButton();
+                                                mya.ID = "1000"+id;
+                                                //mya.Click += new EventHandler(mya_mya);
+                                                //mya.Attributes["runat"] = "server";
+                                                //mya.Attributes["OnClick"]="mya_mya();";
+                                                mya.Attributes["class"] = "btn btn-primary";
+                                                mya.Text = "Submit";
+                                          // HtmlGenericControl mya = new HtmlGenericControl("button");
+                                          //       mya.ID = "1000"+id;
+                                          //       mya.InnerHtml = "Submit";
+                                          //       mya.Attributes["class"] = "btn btn-primary";
+                                          //       mya.Attributes["value"] = "submit";
+                                          form.Controls.Add(myDiv3);
+                                          form.Controls.Add(mya);
+                                          myDiv2.Controls.Add(form);
+
+                myDiv1.Controls.Add(myDiv2);
+           PlaceHolder1.Controls.Add(myDiv1);
+        }
+        protected void add_comment(object sender, EventArgs e,string parameter,string comment){
+          string connectionStirng;
+          SqlConnection sqlConnection;
+          connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
+          sqlConnection = new SqlConnection(connectionStirng);
+          sqlConnection.Open();
+          HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment" + comment + " "+parameter.Length + " ");
+          string id = parameter.Substring(0,parameter.Length);
+
+          string insert_query = "insert into comment values('" + id + "','" + comment + "')";
+          SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
+          int stat = sqlCommand.ExecuteNonQuery();
+        }
+
+        protected void btn_Click(object sender, EventArgs e){
+          // string connectionStirng;
+          // SqlConnection sqlConnection;
+          // connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
+          // sqlConnection = new SqlConnection(connectionStirng);
+          // sqlConnection.Open();
+          // HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment" + comment + " "+parameter.Length + " ");
+          // string id = parameter.Substring(0,parameter.Length);
+          //
+          // string insert_query = "insert into comment values('" + id + "','" + comment + "')";
+          // SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
+          // int stat = sqlCommand.ExecuteNonQuery();
         }
 }
