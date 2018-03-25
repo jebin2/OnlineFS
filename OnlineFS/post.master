@@ -8,6 +8,7 @@
      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <link href="css/blog-home.css" rel="stylesheet">
         <link rel="stylesheet" href="css/post.css" media="screen" type="text/css" />
+        <link rel="stylesheet" href="css/style.css" type="text/css" />
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

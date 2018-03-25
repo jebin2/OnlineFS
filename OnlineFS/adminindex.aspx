@@ -128,7 +128,7 @@
                 <asp:TextBox class="form-control" style="height:38px;" ID="search" runat="server" placeholder="Search for..."></asp:TextBox>
                 <!--<input type="text" class="form-control" ID="search" placeholder="Search for...">-->
                 <span class="input-group-btn">
-                  <asp:Button class="btn btn-secondary" ID="search_button" runat="server" Text="Go!" OnClick="SearchButton"></asp:Button><br /><br />
+                  <asp:Button class="btn btn-secondary" ID="search_button" runat="server" Text="Go!" OnClick="SearchButton"></asp:Button>
                 </span>
               </div>
             </div>
@@ -144,12 +144,12 @@
                     <li>
                       <!--<a href="#">Pending</a>-->
                       <!--<asp:HyperLink ID="PostData1" runat="server" NavigateUrl="#" OnClick="getpendingdata">Pending</asp:HyperLink>-->
-                      <asp:Button ID="PostData11" CssClass="btn btn-link" runat="server" Text="Pending" OnClick="getpendingdata"></asp:Button><br /><br />
+                      <asp:Button ID="PostData11" CssClass="btn btn-link" runat="server" Text="Pending" OnClick="getpendingdata"></asp:Button>
                     </li>
                     <li>
                       <!--<a href="#">Approved</a>-->
                       <!--<asp:HyperLink ID="PostData2" runat="server" NavigateUrl="#" OnClick="getcompleteddata">Approved</asp:HyperLink>-->
-                      <asp:Button ID="PostData22" CssClass="btn btn-link" runat="server" Text="Approved" OnClick="getcompleteddata"></asp:Button><br /><br />
+                      <asp:Button ID="PostData22" CssClass="btn btn-link" runat="server" Text="Approved" OnClick="getcompleteddata"></asp:Button>
                     </li>
                     <li>
                       <a href="#"></a>
@@ -164,7 +164,7 @@
                     <li>
                       <!--<a href="#" onclick="getdata('Rejected')" runat="server">Rejected</a>-->
                       <!--<asp:HyperLink ID="PostData3" runat="server" NavigateUrl="#" OnClick="getrejecteddata">Rejected</asp:HyperLink>-->
-                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Rejected" OnClick="getrejecteddata"></asp:Button><br /><br />
+                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Rejected" OnClick="getrejecteddata"></asp:Button>
                     </li>
                     <li>
                       <a href="#"></a>

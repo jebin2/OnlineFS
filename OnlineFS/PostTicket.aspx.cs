@@ -15,13 +15,15 @@ public partial class PostTicket : System.Web.UI.Page
     string Password = "";
     string title = "";
     string content = "";
-    string keyword = "";
     string path = "";
+    string email = "";
     Validate validate;
+    Database database;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         validate = new Validate();
+        database = new Database();
         checkuser();
         if (validate.GetRole(UserName, Password) != "client")
         {
@@ -30,34 +32,43 @@ public partial class PostTicket : System.Web.UI.Page
     }
     protected void Submit(object sender, EventArgs e)
     {
+      SendMail(sender,e);
       title = pTextBox_title.Text;
       content = pTextBox_description.Text;
-      keyword = pTextBox_keyword.Text;
-      if(pcontent.FileName != null){
-        path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName;
-        pcontent.PostedFile.SaveAs(path);
-      }
+      email = pTextBox_email.Text;
       string connectionStirng;
+      string id = "0";
       SqlConnection sqlConnection;
       connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
       sqlConnection = new SqlConnection(connectionStirng);
       sqlConnection.Open();
       //HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment" + comment + " "+parameter.Length + " ");
       //string id = parameter.Substring(0,parameter.Length);
-      ////////////////
-      string Search = search.Text;
-      string[] Output = new string[]{"id"};
-      string Table = "info";
-      string Condition = " where keyword like '%"+Search+"%' or title like '%"+Search+"%' order by cost DESC";
+      //select top 1 CAST(id AS int) as id1 from admindb order by id1 desc
+      string[] Output = new string[]{" top 1 CAST(id AS int) as id1"};
+      string Table = " postticket";
+      string Condition = " order by id1 desc";
       database.open();
       SqlDataReader sqlDataReader = database.SelectQuery(Output,Table,Condition);
-      while(sqlDataReader.Read()/*HasRows*/){displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+      while(sqlDataReader.Read()/*HasRows*/){
+         id = (sqlDataReader.GetInt32(0)+1).ToString();
         //displaydata(sqlDataReader.GetString(1),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(5).ToString());
       }
-      ////////////////
-      string insert_query = "insert into admindb values ('10','" + title + "','" + content + "','" + keyword + "','" + path + "','pending','"+UserName+"','1')";
+      if(pcontent.FileName != null){
+        path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName + id;
+        pcontent.PostedFile.SaveAs(path);
+      }
+      ///
+      string insert_query = "insert into postticket values ('"+id+"','" + title + "','" + content + "','" + email + "','" + path + "','pending','"+UserName+"')";
       SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
       int stat = sqlCommand.ExecuteNonQuery();
+      clearAll();
+    }
+
+    protected void clearAll(){
+      pTextBox_title.Text = "";
+      pTextBox_description.Text = "";
+      pTextBox_email.Text = "";
     }
 
     protected void checkuser()
@@ -83,9 +94,13 @@ public partial class PostTicket : System.Web.UI.Page
 
         MailMessage message = new MailMessage();
         message.From = new MailAddress("jebin2einstein12@gmail.com");
-        message.To.Add("jebineinstein@gmail.com");
-        message.Subject = "subject";
-        message.Body = "messageBody";
+        if(pTextBox_email.Text == "" || pTextBox_email.Text == null){
+          message.To.Add("jebineinstein@gmail.com");
+        }else{
+          message.To.Add(pTextBox_email.Text);
+        }
+        message.Subject = pTextBox_title.Text;//"subject";
+        message.Body = pTextBox_description.Text;// "messageBody";
         HttpContext.Current.Response.AppendToLog("deliveredasd9");
         smtp.Send(message);
           /*MailMessage mail = new MailMessage();
@@ -109,6 +124,7 @@ public partial class PostTicket : System.Web.UI.Page
           SmtpServer.Send(mail);*/
         HttpContext.Current.Response.AppendToLog("deliveredasd9");
           //MessageBox.Show("mail Send");
+          clearAll();
       }
       catch (Exception ex)
       {

@@ -41,11 +41,11 @@ public partial class AdminIndex : System.Web.UI.Page
         }
         if(parameter!=null){
           if(parameter.ToString().Length>3){
-            if(parameter.ToString().Contains("2")){
+            if(parameter.ToString().Contains("20")){
               approve( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
               mya_mya( this, new EventArgs( ) ,null);
             }
-            else if(parameter.ToString().Contains("3")){
+            else if(parameter.ToString().Contains("30")){
               remove( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
               mya_mya( this, new EventArgs( ) ,null);
             }

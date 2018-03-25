@@ -127,7 +127,7 @@
                 <asp:TextBox class="form-control" style="height:38px;" ID="search" runat="server" placeholder="Search for..."></asp:TextBox>
                 <!--<input type="text" class="form-control" ID="search" placeholder="Search for...">-->
                 <span class="input-group-btn">
-                  <asp:Button class="btn btn-secondary" ID="search_button" runat="server" Text="Go!" OnClick="SearchButton"></asp:Button><br /><br />
+                  <asp:Button class="btn btn-secondary" ID="search_button" runat="server" Text="Go!" OnClick="SearchButton"></asp:Button>
                 </span>
               </div>
             </div>
@@ -141,10 +141,13 @@
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">Forms</a>
+                      <!--<a href="#">Forms</a>-->
+                      <asp:Button ID="PostDataform" CssClass="btn btn-link" runat="server" Text="Forms" OnClick="mya_myaa"></asp:Button>
+
                     </li>
                     <li>
-                      <a href="#">Tickets</a>
+                      <!--<a href="#">Tickets</a>-->
+                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Ticket" OnClick="getticketdata"></asp:Button>
                     </li>
                     <li>
                       <a href="#">Freebies</a>
