@@ -1,61 +1,23 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PostTicket.aspx.cs" Inherits="PostTicket" %>
+<%@ Page Language="C#" MasterPageFile="~/post.master" AutoEventWireup="true" CodeFile="PostTicket.aspx.cs" Inherits="PostTicket" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Post Ticket</title>
-</head>
-<body>
-    <form id="postticket" runat="server">
-        <div>
-            <asp:Table ID="pTable1" runat="server">
-            <asp:TableRow ID="prow1" runat="server">
-                <asp:TableCell ID="pcell11" runat="server">
-                    <asp:Label ID="pLabel_title" runat="server" Text="Title" CssClass="Label"></asp:Label>
-                </asp:TableCell>
-                <asp:TableCell ID="pcell12" runat="server">
-                    <asp:TextBox ID="pTextBox_title" runat="server" CssClass="Textbox"></asp:TextBox>
-                </asp:TableCell>
-            </asp:TableRow>
-            <asp:TableRow ID="prow2" runat="server">
-                <asp:TableCell ID="pcell21" runat="server">
-                    <asp:Label ID="pLabel_description" runat="server" Text="Description" CssClass="Label"></asp:Label>
-                </asp:TableCell>
-                <asp:TableCell ID="pcell22" runat="server">
-                    <asp:TextBox ID="pTextBox_description" runat="server" CssClass="Textbox"></asp:TextBox>
-                </asp:TableCell>
-            </asp:TableRow>
-            <asp:TableRow ID="prow3" runat="server">
-                <asp:TableCell ID="pcell31" runat="server">
-                    <asp:Label ID="pLabel_file" runat="server" Text="File" CssClass="Label"></asp:Label>
-                </asp:TableCell>
-                <asp:TableCell ID="pcell32" runat="server">
-                    <asp:FileUpload ID="pcontent" runat="server" />
-                </asp:TableCell>
-            </asp:TableRow>
-            <asp:TableRow ID="prow4" runat="server">
-                <asp:TableCell ID="pcell41" runat="server">
-                    <asp:Label ID="pLabel_keyword" runat="server" Text="Keywords" CssClass="Label"></asp:Label>
-                </asp:TableCell>
-                <asp:TableCell ID="pcell42" runat="server">
-                    <asp:TextBox ID="pTextBox_keyword" runat="server" CssClass="Textbox"></asp:TextBox>
-                </asp:TableCell>
-            </asp:TableRow>
-            <asp:TableRow ID="prow5" runat="server">
-                <asp:TableCell ID="pcell51" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-                </asp:TableCell>
-                <asp:TableCell ID="pcell52" runat="server" style="float:right;">
-                    <asp:Button ID="psubmit" runat="server" Text="Submit" OnClick="Submit" />
-                </asp:TableCell>
-            </asp:TableRow>
-        </asp:Table>
-        </div>
+        <div class="login-card">
+
+                    <asp:Label ID="pLabel_title" runat="server" Text="Title"></asp:Label>
+                    <asp:TextBox ID="pTextBox_title" runat="server" CssClass="input" TextMode="SingleLine"></asp:TextBox><br/><br/>
+                    <asp:Label ID="pLabel_description" runat="server" Text="Description"></asp:Label>
+                    <asp:TextBox id="pTextBox_description" TextMode="multiline" Columns="50" Rows="5" runat="server" /><br/><br/>
+                    <asp:Label ID="pLabel_file" runat="server" Text="File" CssClass="Label"></asp:Label><br/>
+                    <asp:FileUpload ID="pcontent" runat="server" /><br/><br/>
+                    <asp:Label ID="pLabel_keyword" runat="server" Text="Keywords" CssClass="Label"></asp:Label><br/>
+                    <asp:TextBox ID="pTextBox_keyword" runat="server" CssClass="input" TextMode="SingleLine"></asp:TextBox><br/><br/>
         <p>
-            <asp:Button ID="Button1" runat="server" OnClick="TicketLogOut" Text="Logout" /></br>
-              <asp:Button ID="Mail" runat="server" OnClick="SendMail" Text="Mail" />
+            <asp:Button ID="psubmit" runat="server" Cssclass="register" Text="Submit" OnClick="Submit"/>
+            <asp:Button ID="Mail" runat="server" Cssclass="register" Text="Mail" OnClick="SendMail"/><br/>
         </p>
-    </form>
-</body>
-</html>
+            </div>
+</asp:Content>

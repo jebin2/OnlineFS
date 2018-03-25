@@ -30,16 +30,17 @@ public class Validate
             if (sqlDataReader.HasRows)
             {
                 sqlDataReader.Read();
-                if (sqlDataReader.GetString(0) == "karomi")
-                {
-                    sqlDataReader.Close();
-                    return "Karomi";
-                }
-                else
-                {
-                    sqlDataReader.Close();
-                    return "Client";
-                }
+                // if (sqlDataReader.GetString(0) == "karomi")
+                // {
+                //     sqlDataReader.Close();
+                //     return "Karomi";
+                // }
+                // else if()
+                // {
+                //     sqlDataReader.Close();
+                //     return "Client";
+                // }
+                return sqlDataReader.GetString(0).ToString();
             }
             else
             {

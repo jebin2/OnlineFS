@@ -24,28 +24,31 @@ public partial class Default : System.Web.UI.Page
         string UserName = username.Text;
         string Password = password.Text;
         Role = validate.GetRole(UserName, Password);
-        if (Role == "Karomi")
+        if (Role == "karomi")
         {
             Session["UserName"] = username.Text;
             Session["Pwd"] = password.Text;
             PostData.Visible = true;
-            Response.Redirect("index.aspx");
+            Response.Redirect("index.aspx?user=1");
             //Response.Redirect("PostData.aspx");
             //Server.Transfer("PostData.aspx");
         }
-        else if(Role == "Client")
+        else if(Role == "client")
         {
             Session["UserName"] = username.Text;
             Session["Pwd"] = password.Text;
-            Response.Redirect("PostTicket.aspx");
+            Response.Redirect("PostTicket.aspx?user=1");
         }
-        else if(Role == "Please Register")
+        else if(Role == "admin")
         {
-            status.Text = "Please Register";
+          Session["UserName"] = username.Text;
+          Session["Pwd"] = password.Text;
+          Response.Redirect("adminindex.aspx?user=1");
+
         }
         else
         {
-            status.Text = Role;
+            status.Text = "Please Register";
         }
     }
 

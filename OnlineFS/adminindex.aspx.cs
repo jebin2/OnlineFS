@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 
-public partial class Index : System.Web.UI.Page
+public partial class AdminIndex : System.Web.UI.Page
 {
     Database database;
     Validate validate;
@@ -26,10 +26,6 @@ public partial class Index : System.Web.UI.Page
         }else{
           logout.Visible = false;
         }
-        // if (validate.GetRole(UserName, Password) != "Karomi")
-        // {
-        //     Response.Redirect("Exit.aspx");
-        // }
         //mya_mya();
         // if(Request["__EVENTARGUMENT"] == "mya1"){
         //   mya_mya( this, new EventArgs( ) );
@@ -44,14 +40,25 @@ public partial class Index : System.Web.UI.Page
           comment = Request.Cookies["comment"].Value;
         }
         if(parameter!=null){
-        if(parameter.ToString().Length>3){
-          HttpContext.Current.Response.AppendToLog("deliveredasdSearchSearch");
-          add_comment( this, new EventArgs( ) ,parameter,comment);
-        }else{
-          mya_mya( this, new EventArgs( ) ,parameter);
-        }
-        }else{
+          if(parameter.ToString().Length>3){
+            if(parameter.ToString().Contains("2")){
+              approve( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
+              mya_mya( this, new EventArgs( ) ,null);
+            }
+            else if(parameter.ToString().Contains("3")){
+              remove( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
+              mya_mya( this, new EventArgs( ) ,null);
+            }
+            else{
+              HttpContext.Current.Response.AppendToLog("deliveredasdSearchSearch");
+              add_comment( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1),comment);
+              mya_mya( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
+            }
+          }else{
             mya_mya( this, new EventArgs( ) ,parameter);
+          }
+        }else{
+              mya_mya( this, new EventArgs( ) ,parameter);
         }
         // }
     }
@@ -64,18 +71,12 @@ public partial class Index : System.Web.UI.Page
     protected void SearchButton(object sender, EventArgs e){
       string Search = search.Text;
       string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
-      string Table = "info";
+      string Table = "admindb ";
       string Condition = " where keyword like '%"+Search+"%' or title like '%"+Search+"%' order by cost DESC";
       database.open();
-      /*string yourDataItems = "<div class='card mb-4'><img class='card-img-top' src='http://placehold.it//750x300' alt='Card image cap'><div class='card-body'><h2 class='card-title' runat='server' ID='cardtitle1'>Post Title</h2><p class='card-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p><a href='#' class='btn btn-primary'>Read More &rarr;</a></div><div class='card-footer text-muted'>Posted on January 1, 2017 by<a href='#'>Start Bootstrap</a></div></div>";
-      rptItems.DataSource = yourDataItems;
-      rptItems.DataBind();*/
       SqlDataReader sqlDataReader = database.SelectQuery(Output,Table,Condition);
       while(sqlDataReader.Read()/*HasRows*/){
-        //sqlDataReader.Read();
-        //displaydata(sqlDataReader.GetString(0).ToString(),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(3).ToString());
         displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
-        //displaydata(sqlDataReader.GetString(1),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(5).ToString());
       }
     }
 
@@ -83,11 +84,6 @@ public partial class Index : System.Web.UI.Page
       HtmlGenericControl myDiv = new HtmlGenericControl("div");
             myDiv.ID = "myDiv" + Guid.NewGuid().ToString("N");
             myDiv.Attributes["class"] = "card mb-4";
-            /*LinkButton myLnkBtn = new LinkButton();
-            myLnkBtn.ID = "myLnkBtn";
-            myLnkBtn.Click += new EventHandler(myLnkBtn_Click);
-            myLnkBtn.Text = "I'm dynamic";
-            myDiv.Controls.Add(myLnkBtn);*/
       HtmlGenericControl myDiv1 = new HtmlGenericControl("div");
             myDiv1.ID = "myDiv1" + Guid.NewGuid().ToString("N");
             myDiv1.Attributes["class"] = "card-img-top";
@@ -112,9 +108,6 @@ public partial class Index : System.Web.UI.Page
 
             LinkButton mya = new LinkButton();
             mya.ID = id;
-            //mya.Click += new EventHandler(mya_mya);
-            //mya.Attributes["runat"] = "server";
-            //mya.Attributes["OnClick"]="mya_mya();";
             mya.Attributes["class"] = "btn btn-primary";
 
             mya.Text = "Read More &rarr;";
@@ -144,34 +137,35 @@ public partial class Index : System.Web.UI.Page
           PlaceHolder1.Controls.Clear();
           string Search = "";
           string Condition = "";
-          //HttpContext.Current.Response.AppendToLog("deliveredasdSearch" + Search);
-          // LinkButton lnk = sender as LinkButton;
-          // if(lnk!=null){
-          //     Search = lnk.ID.ToString();
-          // }
-          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
-          string Table = "info";
+          string[] Output = new string[]{"id,","title,","username,","cost",",keyword",",status"};
+          string Table = "admindb";
           SqlDataReader sqlDataReader;
           database.open();
           if(parameter!=null){
               Search = parameter.ToString();
+              //Condition = " where status = 'pending' and id = '"+Search+"'order by cost DESC";
               Condition = " where id = '"+Search+"'order by cost DESC";
               sqlDataReader = database.SelectQuery(Output,Table,Condition);
               while(sqlDataReader.Read()){
-                //sqlDataReader.Read();
-                displayfulldata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
-              }
+                //if(sqlDataReader.GetString(5).ToString()=="pending"){
+                  displayfulldata(sqlDataReader.GetString(0),
+                  sqlDataReader.GetString(1).ToString(),
+                  sqlDataReader.GetString(2).ToString(),
+                  sqlDataReader.GetString(4).ToString(),
+                  sqlDataReader.GetString(5).ToString());
+                }
           }else{
+            Condition = " where status = 'pending' order by cost DESC";
             sqlDataReader = database.SelectQuery(Output,Table,Condition);
             while(sqlDataReader.Read()){
-              //sqlDataReader.Read();
               displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
             }
           }
         }
 
-        protected void displayfulldata(string id, string title, string username,string content){
+        protected void displayfulldata(string id, string title, string username,string content,string status){
 
+          LinkButton approve = new LinkButton(), reject = new LinkButton();
           HtmlGenericControl myp = new HtmlGenericControl("p");
                 myp.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
                 myp.Attributes["class"] = "lead";
@@ -214,18 +208,26 @@ public partial class Index : System.Web.UI.Page
                                           myDiv3.Controls.Add(textarea);
                                           LinkButton mya = new LinkButton();
                                                 mya.ID = "1000"+id;
-                                                //mya.Click += new EventHandler(mya_mya);
-                                                //mya.Attributes["runat"] = "server";
-                                                //mya.Attributes["OnClick"]="mya_mya();";
                                                 mya.Attributes["class"] = "btn btn-primary";
                                                 mya.Text = "Submit";
-                                          // HtmlGenericControl mya = new HtmlGenericControl("button");
-                                          //       mya.ID = "1000"+id;
-                                          //       mya.InnerHtml = "Submit";
-                                          //       mya.Attributes["class"] = "btn btn-primary";
-                                          //       mya.Attributes["value"] = "submit";
+                                                if(status == "pending"){
+
+                                                approve.ID = "2000"+id;
+                                                approve.Attributes["class"] = "btn btn-primary";
+                                                approve.Text = "Approve";
+                                                approve.Click += new EventHandler(myLnkBtn_Click);
+                                          //reject = new LinkButton();
+                                                reject.ID = "3000"+id;
+                                                reject.Attributes["class"] = "btn btn-primary";
+                                                reject.Text = "Reject";
+                                              }
+
                                           form.Controls.Add(myDiv3);
                                           form.Controls.Add(mya);
+                                          if(status == "pending"){
+                                            form.Controls.Add(approve);
+                                            form.Controls.Add(reject);
+                                          }
                                           myDiv2.Controls.Add(form);
 
                 myDiv1.Controls.Add(myDiv2);
@@ -244,19 +246,98 @@ public partial class Index : System.Web.UI.Page
           SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
           int stat = sqlCommand.ExecuteNonQuery();
         }
+        protected void approve(object sender, EventArgs e,string parameter){
+          PlaceHolder1.Controls.Clear();
+          string Search = "";
+          string Condition = "";
+          string[] Output = new string[]{"*"};
+          string Table = "admindb";
+          SqlDataReader sqlDataReader;
+          database.open();
+          Search = parameter.ToString();
+          Condition = " where id = '"+parameter+"'";
+          sqlDataReader = database.SelectQuery(Output,Table,Condition);
+          sqlDataReader.Read();
+          //displayfulldata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(4).ToString(),sqlDataReader.GetString(5).ToString(),sqlDataReader.GetString(6).ToString(),sqlDataReader.GetString(7).ToString());
 
-        protected void btn_Click(object sender, EventArgs e){
-          // string connectionStirng;
-          // SqlConnection sqlConnection;
-          // connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
-          // sqlConnection = new SqlConnection(connectionStirng);
-          // sqlConnection.Open();
-          // HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment" + comment + " "+parameter.Length + " ");
-          // string id = parameter.Substring(0,parameter.Length);
-          //
-          // string insert_query = "insert into comment values('" + id + "','" + comment + "')";
-          // SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
-          // int stat = sqlCommand.ExecuteNonQuery();
+          string connectionStirng;
+          SqlConnection sqlConnection;
+          connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
+          sqlConnection = new SqlConnection(connectionStirng);
+          sqlConnection.Open();
+          HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment parameter a"+parameter+ " ");
+          string id = parameter.Substring(0,parameter.Length);
+          string insert_query = "insert into info1 values('"+sqlDataReader.GetString(0)+"','"+sqlDataReader.GetString(1).ToString()+"','"+sqlDataReader.GetString(2).ToString()+"','"+sqlDataReader.GetString(3).ToString()+"','"+sqlDataReader.GetString(6).ToString()+"')";
+          string update_query = "update admindb set status = 'completed' where id ='"+parameter+"'";
+          SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
+          SqlCommand sqlCommand1 = new SqlCommand(update_query, sqlConnection);
+          int stat = sqlCommand.ExecuteNonQuery();
+          int stat1 = sqlCommand1.ExecuteNonQuery();
+        }
+
+        protected void remove(object sender, EventArgs e,string parameter){
+          string connectionStirng;
+          SqlConnection sqlConnection;
+          connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
+          sqlConnection = new SqlConnection(connectionStirng);
+          sqlConnection.Open();
+          //HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment" + comment + " "+parameter.Length + " ");
+          string id = parameter.Substring(0,parameter.Length);
+          string insert_query = "update admindb set status = 'reject' where id ='"+parameter+"'";
+          SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
+          int stat = sqlCommand.ExecuteNonQuery();
+        }
+
+        protected void getrejecteddata(object sender, EventArgs e){
+          PlaceHolder1.Controls.Clear();
+          string Search = "";
+          string Condition = "";
+          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string Table = "admindb";
+          SqlDataReader sqlDataReader;
+          database.open();
+          // if(parameter!=null){
+            Condition = " where status = 'reject' order by cost DESC";
+            sqlDataReader = database.SelectQuery(Output,Table,Condition);
+            while(sqlDataReader.Read()){
+              displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+            }
+          // }
+        }
+        protected void getpendingdata(object sender, EventArgs e){
+          PlaceHolder1.Controls.Clear();
+          string Search = "";
+          string Condition = "";
+          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string Table = "admindb";
+          SqlDataReader sqlDataReader;
+          database.open();
+          // if(parameter!=null){
+            Condition = " where status = 'pending' order by cost DESC";
+            sqlDataReader = database.SelectQuery(Output,Table,Condition);
+            while(sqlDataReader.Read()){
+              displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+            }
+          // }
+        }
+        protected void getcompleteddata(object sender, EventArgs e){
+          PlaceHolder1.Controls.Clear();
+          string Search = "";
+          string Condition = "";
+          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string Table = "admindb";
+          SqlDataReader sqlDataReader;
+          database.open();
+          // if(parameter!=null){
+            Condition = " where status = 'completed' order by cost DESC";
+            sqlDataReader = database.SelectQuery(Output,Table,Condition);
+            while(sqlDataReader.Read()){
+              displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+            }
+          // }
+        }
+
+        protected void myLnkBtn_Click(object sender, EventArgs e){
         }
 
         protected void fLogin(object sender, EventArgs e){
@@ -270,7 +351,6 @@ public partial class Index : System.Web.UI.Page
           Session["Pwd"] = "";
           login.Visible = true;
           logout.Visible = false;
-          Response.Redirect("index.aspx");
+          Response.Redirect("adminindex.aspx");
         }
-
 }

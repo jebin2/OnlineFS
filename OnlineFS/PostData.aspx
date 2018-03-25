@@ -1,14 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PostData.aspx.cs" Inherits="PostData" %>
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/post.master" CodeFile="PostData.aspx.cs" Inherits="PostData" %>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <link rel="stylesheet" href="css/postdata.css" media="screen" type="text/css" />
-    <title>Post Data</title>
-</head>
-<body>
-    <form id="form1" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
         <div>
             <asp:Table ID="Table1" runat="server">
             <asp:TableRow ID="row1" runat="server">
@@ -54,6 +50,4 @@
         </asp:Table>
         </div>
         <asp:Button ID="Button1" runat="server" OnClick="Logout" Text="Logout" />
-    </form>
-</body>
-</html>
+</asp:Content>

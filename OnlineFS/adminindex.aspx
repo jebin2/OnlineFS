@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="Index" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="adminindex.aspx.cs" Inherits="AdminIndex" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +37,7 @@
               <asp:Button ID="login22" CssClass="btn nav-link btn-link" runat="server" Text="Login" OnClick="fLogin"></asp:Button>
             </li>
             <li class="nav-item" id = "logout" runat = "server">
-              <!--<a class="nav-link" href="/default.aspx" runat = "server">Login</a>-->
+              <!--<a class="nav-link" href="/default.aspx" runat = "server">Logout</a>-->
               <asp:Button ID="logout22" CssClass="btn nav-link btn-link" runat="server" Text="Logout" OnClick="fLogout"></asp:Button>
             </li>
             <li class="nav-item">
@@ -57,7 +57,7 @@
         <div class="col-md-8">
 
           <h1 class="my-4">Posts
-            <small>Forms</small>
+            <small></small>
           </h1>
 
           <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
@@ -106,14 +106,15 @@
           </div>-->
 
           <!-- Pagination -->
-  <!--        <ul class="pagination justify-content-center mb-4">
+          <!--<ul class="pagination justify-content-center mb-4">
             <li class="page-item">
               <a class="page-link" href="#">&larr; Older</a>
             </li>
             <li class="page-item disabled">
               <a class="page-link" href="#">Newer &rarr;</a>
             </li>
--->
+          </ul>-->
+
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -141,26 +142,32 @@
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">Forms</a>
+                      <!--<a href="#">Pending</a>-->
+                      <!--<asp:HyperLink ID="PostData1" runat="server" NavigateUrl="#" OnClick="getpendingdata">Pending</asp:HyperLink>-->
+                      <asp:Button ID="PostData11" CssClass="btn btn-link" runat="server" Text="Pending" OnClick="getpendingdata"></asp:Button><br /><br />
                     </li>
                     <li>
-                      <a href="#">Tickets</a>
+                      <!--<a href="#">Approved</a>-->
+                      <!--<asp:HyperLink ID="PostData2" runat="server" NavigateUrl="#" OnClick="getcompleteddata">Approved</asp:HyperLink>-->
+                      <asp:Button ID="PostData22" CssClass="btn btn-link" runat="server" Text="Approved" OnClick="getcompleteddata"></asp:Button><br /><br />
                     </li>
                     <li>
-                      <a href="#">Freebies</a>
+                      <a href="#"></a>
                     </li>
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">JavaScript</a>
+                      <a href="#"></a>
                     </li>
                     <li>
-                      <a href="#">CSS</a>
+                      <!--<a href="#" onclick="getdata('Rejected')" runat="server">Rejected</a>-->
+                      <!--<asp:HyperLink ID="PostData3" runat="server" NavigateUrl="#" OnClick="getrejecteddata">Rejected</asp:HyperLink>-->
+                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Rejected" OnClick="getrejecteddata"></asp:Button><br /><br />
                     </li>
                     <li>
-                      <a href="#">Tutorials</a>
+                      <a href="#"></a>
                     </li>
                   </ul>
                 </div>
@@ -168,7 +175,7 @@
             </div>
           </div>
 
-          <!-- Side Widget -->
+          <!-- Side Widget
           <div class="card my-4">
             <h5 class="card-header">Side Widget</h5>
             <div class="card-body">
@@ -176,7 +183,7 @@
             </div>
           </div>
 
-        </div>
+        </div>-->
 
       </div>
       <!-- /.row -->

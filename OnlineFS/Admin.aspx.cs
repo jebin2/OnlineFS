@@ -7,13 +7,17 @@ using System.Web.UI.WebControls;
 
 public partial class Admin : System.Web.UI.Page
 {
+  Database database;
+  Validate validate;
+  string Role = "";
     protected void Page_Load(object sender, EventArgs e)
     {
-
+      validate = new Validate();
+      database = new Database();
     }
     protected void Adminfu(object sender, EventArgs e)
     {
-        string User = username.Text;
+        /*string User = username.Text;
         string pass = password.Text;
         if(username.Text != "" && password.Text != "")
         {
@@ -25,7 +29,19 @@ public partial class Admin : System.Web.UI.Page
             {
                 status.Text = "Invalid username and password";
             }
+        }*/
+        string UserName = username.Text;
+        string Password = password.Text;
+        Role = validate.GetRole(UserName, Password);
+        if (Role == "admin")
+        {
+            Session["UserName"] = username.Text;
+            Session["Pwd"] = password.Text;
+            Response.Redirect("index.aspx?role="+Role);
         }
-
+        else// if(Role == "Please Register")
+        {
+            status.Text = "Please Register";
+        }
     }
 }

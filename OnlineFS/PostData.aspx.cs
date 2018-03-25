@@ -14,7 +14,7 @@ public partial class PostData : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         validate = new Validate();
-        string UserName = Session["UserName"].ToString();
+        /*string UserName = Session["UserName"].ToString();
         string Password = Session["Pwd"].ToString();
         if (validate.GetRole(UserName, Password) != "Karomi")
         {
@@ -22,8 +22,8 @@ public partial class PostData : System.Web.UI.Page
         }
         else
         {
-            
-        }
+
+        }*/
     }
 
     protected void Submit(object sender, EventArgs e)
