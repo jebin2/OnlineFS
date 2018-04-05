@@ -17,8 +17,12 @@ public partial class Default : System.Web.UI.Page
     {
         validate = new Validate();
         database = new Database();
-    }
 
+    }
+    // protected void Registernow (object sender, EventArgs e)
+    // {
+    //   Response.Redirect("register.aspx");
+    // }
     protected void Login(object sender, EventArgs e)
     {
         string UserName = username.Text;
@@ -29,7 +33,7 @@ public partial class Default : System.Web.UI.Page
             Session["UserName"] = username.Text;
             Session["Pwd"] = password.Text;
             PostData.Visible = true;
-            Response.Redirect("index.aspx?user=1");
+            Response.Redirect("PostData.aspx?user=1");
             //Response.Redirect("PostData.aspx");
             //Server.Transfer("PostData.aspx");
         }

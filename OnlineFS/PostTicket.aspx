@@ -6,13 +6,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
         <div class="login-card">
-
+                    <h2><asp:Label ID="pLabel_title12" runat="server" Text="Issue"></asp:Label></h2><br/>
                     <asp:Label ID="pLabel_title" runat="server" Text="Title"></asp:Label>
                     <asp:TextBox ID="pTextBox_title" runat="server" CssClass="input" TextMode="SingleLine"></asp:TextBox><br/><br/>
                     <asp:Label ID="pLabel_description" runat="server" Text="Description"></asp:Label>
                     <asp:TextBox id="pTextBox_description" TextMode="multiline" Columns="50" Rows="5" runat="server" /><br/><br/>
-                    <asp:Label ID="pLabel_file" runat="server" Text="File" CssClass="Label"></asp:Label><br/>
-                    <asp:FileUpload ID="pcontent" runat="server" /><br/><br/>
+                    <!--<asp:Label ID="pLabel_file" runat="server" Text="File" CssClass="Label"></asp:Label><br/>-->
+                    <!--<asp:FileUpload ID="pcontent" runat="server" /><br/><br/>-->
                     <asp:Label ID="pLabel_email" runat="server" Text="Email" CssClass="Label"></asp:Label><br/>
                     <asp:TextBox ID="pTextBox_email" runat="server" CssClass="input" TextMode="SingleLine"></asp:TextBox><br/><br/>
                     <asp:HyperLink ID="webx" runat="server" ImageUrl="image/webex.jpg" NavigateUrl="https://www.webex.co.in" Target="_blank">https://www.webex.co.in</asp:HyperLink>

@@ -26,22 +26,23 @@
     <form id="postticket" runat="server">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Home</a>
+        <a class="navbar-brand" href="index.aspx">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item" id = "login" runat = "server">
+            <li class="nav-item" id = "adminlogin" runat = "server">
               <!--<a class="nav-link" href="/default.aspx" runat = "server">Login</a>-->
-              <asp:Button ID="login22" CssClass="btn nav-link btn-link" runat="server" Text="Login" OnClick="fLogin"></asp:Button>
+              <asp:Button ID="login22" CssClass="btn nav-link btn-link" runat="server" Text="Admin" OnClick="admin"></asp:Button>
             </li>
-            <li class="nav-item" id = "logout" runat = "server">
+            <li class="nav-item" id = "register" runat = "server">
               <!--<a class="nav-link" href="/default.aspx" runat = "server">Login</a>-->
-              <asp:Button ID="logout22" CssClass="btn nav-link btn-link" runat="server" Text="Logout" OnClick="fLogout"></asp:Button>
+              <asp:Button ID="logout22" CssClass="btn nav-link btn-link" runat="server" Text="Register" OnClick="fLogout"></asp:Button>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+            <li class="nav-item"  id = "login" runat = "server">
+              <!--<a class="nav-link" href="#"></a>-->
+              <asp:Button ID="logout223" CssClass="btn nav-link btn-link" runat="server" Text="Login" OnClick="fLogin"></asp:Button>
             </li>
           </ul>
         </div>
@@ -56,7 +57,7 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-          <h1 class="my-4">Posts
+          <h1 id = "header1" class="my-4" runat="server">Posts
             <small>Forms</small>
           </h1>
 
@@ -147,23 +148,23 @@
                     </li>
                     <li>
                       <!--<a href="#">Tickets</a>-->
-                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Ticket" OnClick="getticketdata"></asp:Button>
+                      <asp:Button ID="PostData33" CssClass="btn btn-link" runat="server" Text="Issue" OnClick="getticketdata"></asp:Button>
                     </li>
                     <li>
-                      <a href="#">Freebies</a>
+                      <a href="#"></a>
                     </li>
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">JavaScript</a>
+                      <a href="#"></a>
                     </li>
                     <li>
-                      <a href="#">CSS</a>
+                      <a href="#"></a>
                     </li>
                     <li>
-                      <a href="#">Tutorials</a>
+                      <a href="#"></a>
                     </li>
                   </ul>
                 </div>
@@ -171,13 +172,13 @@
             </div>
           </div>
 
-          <!-- Side Widget -->
+          <!-- Side Widget
           <div class="card my-4">
             <h5 class="card-header">Side Widget</h5>
             <div class="card-body">
               You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
             </div>
-          </div>
+          </div>-->
 
         </div>
 

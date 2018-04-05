@@ -69,6 +69,7 @@ public partial class AdminIndex : System.Web.UI.Page
     }
 
     protected void SearchButton(object sender, EventArgs e){
+		PlaceHolder1.Controls.Clear();
       string Search = search.Text;
       string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
       string Table = "admindb ";
@@ -122,7 +123,7 @@ public partial class AdminIndex : System.Web.UI.Page
             HtmlGenericControl mya1 = new HtmlGenericControl("a");
                   mya1.ID = "mya11" + Guid.NewGuid().ToString("N");
                   mya1.Attributes["href"] = "#";
-                  mya1.InnerHtml = "Start Bootstrap";
+                  //mya1.InnerHtml = "Start Bootstrap";
                   myDiv3.Controls.Add(mya1);
 
             myDiv1.Controls.Add(myDiv3);
@@ -137,7 +138,7 @@ public partial class AdminIndex : System.Web.UI.Page
           PlaceHolder1.Controls.Clear();
           string Search = "";
           string Condition = "";
-          string[] Output = new string[]{"id,","title,","username,","cost",",keyword",",status"};
+          string[] Output = new string[]{"id,","title,","username,","cost",",title",",status"};
           string Table = "admindb";
           SqlDataReader sqlDataReader;
           database.open();
@@ -145,6 +146,7 @@ public partial class AdminIndex : System.Web.UI.Page
               Search = parameter.ToString();
               //Condition = " where status = 'pending' and id = '"+Search+"'order by cost DESC";
               Condition = " where id = '"+Search+"'order by cost DESC";
+              Output = new string[]{"id,","title,","username,","cost",",content",",status"};
               sqlDataReader = database.SelectQuery(Output,Table,Condition);
               while(sqlDataReader.Read()){
                 //if(sqlDataReader.GetString(5).ToString()=="pending"){
@@ -254,12 +256,24 @@ public partial class AdminIndex : System.Web.UI.Page
           string Table = "admindb";
           SqlDataReader sqlDataReader;
           database.open();
+          string id1 = "";
+          //displayfulldata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(4).ToString(),sqlDataReader.GetString(5).ToString(),sqlDataReader.GetString(6).ToString(),sqlDataReader.GetString(7).ToString());
+////////////////
+Table = "info";
+Output = new string[]{" top 1 CAST(id AS int) as id1"};
+Condition = " order by id1 desc";
+SqlDataReader sqlDataReaderid = database.SelectQuery(Output,Table,Condition);
+while(sqlDataReaderid.Read()/*HasRows*/){
+   id1 = (sqlDataReaderid.GetInt32(0)+1).ToString();
+}
+sqlDataReaderid.Close();
+////////////////
+Table = "admindb";
+          Output = new string[]{"*"};
           Search = parameter.ToString();
           Condition = " where id = '"+parameter+"'";
           sqlDataReader = database.SelectQuery(Output,Table,Condition);
           sqlDataReader.Read();
-          //displayfulldata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(4).ToString(),sqlDataReader.GetString(5).ToString(),sqlDataReader.GetString(6).ToString(),sqlDataReader.GetString(7).ToString());
-
           string connectionStirng;
           SqlConnection sqlConnection;
           connectionStirng = ConfigurationManager.ConnectionStrings["OnlineFS"].ConnectionString;
@@ -267,7 +281,7 @@ public partial class AdminIndex : System.Web.UI.Page
           sqlConnection.Open();
           HttpContext.Current.Response.AppendToLog("deliveredasdparametercomment parameter a"+parameter+ " ");
           string id = parameter.Substring(0,parameter.Length);
-          string insert_query = "insert into info1 values('"+sqlDataReader.GetString(0)+"','"+sqlDataReader.GetString(1).ToString()+"','"+sqlDataReader.GetString(2).ToString()+"','"+sqlDataReader.GetString(3).ToString()+"','"+sqlDataReader.GetString(6).ToString()+"')";
+          string insert_query = "insert into info values('"+id1+"','"+sqlDataReader.GetString(1).ToString()+"','"+sqlDataReader.GetString(2).ToString()+"','"+sqlDataReader.GetString(3).ToString()+"','"+sqlDataReader.GetString(4).ToString()+"','"+sqlDataReader.GetString(6).ToString()+"','"+sqlDataReader.GetString(7).ToString()+"')";
           string update_query = "update admindb set status = 'completed' where id ='"+parameter+"'";
           SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
           SqlCommand sqlCommand1 = new SqlCommand(update_query, sqlConnection);
@@ -308,12 +322,13 @@ public partial class AdminIndex : System.Web.UI.Page
           PlaceHolder1.Controls.Clear();
           string Search = "";
           string Condition = "";
-          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string[] Output = new string[]{"id,","title,","username,","cost",",title"};
           string Table = "admindb";
           SqlDataReader sqlDataReader;
           database.open();
           // if(parameter!=null){
             Condition = " where status = 'pending' order by cost DESC";
+            // Output = new string[]{"id,","title,","username,","cost",",content"};
             sqlDataReader = database.SelectQuery(Output,Table,Condition);
             while(sqlDataReader.Read()){
               displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
@@ -341,16 +356,16 @@ public partial class AdminIndex : System.Web.UI.Page
         }
 
         protected void fLogin(object sender, EventArgs e){
-          Session["UserName"] = "";
-          Session["Pwd"] = "";
-          Response.Redirect("default.aspx");
+           Session["UserName"] = "";
+           Session["Pwd"] = "";
+           Response.Redirect("default.aspx");
         }
 
         protected void fLogout(object sender, EventArgs e){
-          Session["UserName"] = "";
-          Session["Pwd"] = "";
+           Session["UserName"] = "";
+           Session["Pwd"] = "";
           login.Visible = true;
           logout.Visible = false;
-          Response.Redirect("adminindex.aspx");
+           Response.Redirect("index.aspx");
         }
 }

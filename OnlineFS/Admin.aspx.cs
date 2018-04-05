@@ -33,15 +33,16 @@ public partial class Admin : System.Web.UI.Page
         string UserName = username.Text;
         string Password = password.Text;
         Role = validate.GetRole(UserName, Password);
-        if (Role == "admin")
+        if(Role == "admin")
         {
-            Session["UserName"] = username.Text;
-            Session["Pwd"] = password.Text;
-            Response.Redirect("index.aspx?role="+Role);
+          Session["UserName"] = username.Text;
+          Session["Pwd"] = password.Text;
+          Response.Redirect("adminindex.aspx?user=1");
+
         }
-        else// if(Role == "Please Register")
-        {
-            status.Text = "Please Register";
-        }
+        // else// if(Role == "Please Register")
+        // {
+        //     status.Text = "Please Register";
+        // }
     }
 }

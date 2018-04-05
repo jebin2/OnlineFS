@@ -9,12 +9,12 @@ public partial class post : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+      // postlogout.Visible = false;
     }
 
     protected void fLogout(object sender, EventArgs e){
-      Session["UserName"] = "";
-      Session["Pwd"] = "";
-      Response.Redirect("default.aspx");
+       Session["UserName"] = "";
+       Session["Pwd"] = "";
+       Response.Redirect("default.aspx");
     }
 }

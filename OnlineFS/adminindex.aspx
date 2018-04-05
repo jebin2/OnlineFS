@@ -41,7 +41,7 @@
               <asp:Button ID="logout22" CssClass="btn nav-link btn-link" runat="server" Text="Logout" OnClick="fLogout"></asp:Button>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="#"></a>
             </li>
           </ul>
         </div>
@@ -191,13 +191,13 @@
     </div>
     <!-- /.container -->
 
-    <!-- Footer -->
+    <!-- Footer
     <footer class="py-5 bg-dark">
       <div class="container">
         <p class="m-0 text-center text-white"></p>
       </div>
-      <!-- /.container -->
-    </footer>
+       /.container
+    </footer>-->
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

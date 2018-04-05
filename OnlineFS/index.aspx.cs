@@ -22,9 +22,9 @@ public partial class Index : System.Web.UI.Page
         database = new Database();
         string user = Request.QueryString["user"];
         if(user =="1"){
-          login.Visible = false;
+          //login.Visible = false;
         }else{
-          logout.Visible = false;
+          //logout.Visible = false;
         }
         // if (validate.GetRole(UserName, Password) != "Karomi")
         // {
@@ -44,13 +44,19 @@ public partial class Index : System.Web.UI.Page
           comment = Request.Cookies["comment"].Value;
         }
         if(parameter!=null){
+          if(parameter.ToString().Contains("ticket")){
+            //getticketdataa( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
+          }
         if(parameter.ToString().Length>3){
           if(parameter.ToString().Contains("ticket")){
             getticketdataa( this, new EventArgs( ) ,parameter.ToString().Substring(parameter.ToString().Length-1,1));
+            HttpContext.Current.Response.AppendToLog("deliveredasdSearchSearch123"+parameter.ToString().Substring(parameter.ToString().Length-1,1));
             //mya_mya( this, new EventArgs( ) ,null);
-          }
+          }else{
           HttpContext.Current.Response.AppendToLog("deliveredasdSearchSearch");
           add_comment( this, new EventArgs( ) ,parameter,comment);
+        }
+		  //mya_mya( this, new EventArgs( ) ,parameter);
         }else{
           mya_mya( this, new EventArgs( ) ,parameter);
         }
@@ -66,8 +72,9 @@ public partial class Index : System.Web.UI.Page
     }
 
     protected void SearchButton(object sender, EventArgs e){
+		PlaceHolder1.Controls.Clear();
       string Search = search.Text;
-      string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+      string[] Output = new string[]{"id,","title,","username,","cost",",title"};
       string Table = "info";
       string Condition = " where keyword like '%"+Search+"%' or title like '%"+Search+"%' order by cost DESC";
       database.open();
@@ -100,13 +107,15 @@ public partial class Index : System.Web.UI.Page
     }
 
     protected void getticketdataa(object sender, EventArgs e, string parameter){
-      string[] Output = new string[]{"id,","title,","username,","email"};
+      string[] Output = new string[]{"id,","title,","username,","title"};
       string Table = "postticket";
       SqlDataReader sqlDataReader;
       string Condition = "";
       database.open();
       if(parameter != null || parameter != ""){
           Condition = " where id = '"+parameter+"'";
+          HttpContext.Current.Response.AppendToLog("deliveredasdSearch1condition "+Condition);
+          Output = new string[]{"id,","title,","username,","content"};
           sqlDataReader = database.SelectQuery(Output,Table,Condition);
           while(sqlDataReader.Read()){
             displayfullticketdata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString());
@@ -116,9 +125,6 @@ public partial class Index : System.Web.UI.Page
         while(sqlDataReader.Read()){
           displayticketdata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString());
         }
-      }
-      while(sqlDataReader.Read()){
-        displayticketdata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString());
       }
     }
 
@@ -172,7 +178,7 @@ public partial class Index : System.Web.UI.Page
             HtmlGenericControl mya1 = new HtmlGenericControl("a");
                   mya1.ID = "mya11" + Guid.NewGuid().ToString("N");
                   mya1.Attributes["href"] = "#";
-                  mya1.InnerHtml = "Start Bootstrap";
+                  //mya1.InnerHtml = "Start Bootstrap";
                   myDiv3.Controls.Add(mya1);
 
             myDiv1.Controls.Add(myDiv3);
@@ -293,7 +299,7 @@ public partial class Index : System.Web.UI.Page
             HtmlGenericControl mya1 = new HtmlGenericControl("a");
                   mya1.ID = "mya11" + Guid.NewGuid().ToString("N");
                   mya1.Attributes["href"] = "#";
-                  mya1.InnerHtml = "Start Bootstrap";
+                  //mya1.InnerHtml = "Start Bootstrap";
                   myDiv3.Controls.Add(mya1);
 
             myDiv1.Controls.Add(myDiv3);
@@ -313,13 +319,14 @@ public partial class Index : System.Web.UI.Page
           // if(lnk!=null){
           //     Search = lnk.ID.ToString();
           // }
-          string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
+          string[] Output = new string[]{"id,","title,","username,","cost",",title"};
           string Table = "info";
           SqlDataReader sqlDataReader;
           database.open();
           if(parameter!=null){
               Search = parameter.ToString();
               Condition = " where id = '"+Search+"'order by cost DESC";
+              Output = new string[]{"id,","title,","username,","cost",",content"};
               sqlDataReader = database.SelectQuery(Output,Table,Condition);
               while(sqlDataReader.Read()){
                 //sqlDataReader.Read();
@@ -338,16 +345,35 @@ public partial class Index : System.Web.UI.Page
             {
 
               PlaceHolder1.Controls.Clear();
-              string Condition = "";
-              string[] Output = new string[]{"id,","title,","username,","cost",",keyword"};
-              string Table = "info";
-              SqlDataReader sqlDataReader;
-              database.open();
-                sqlDataReader = database.SelectQuery(Output,Table,Condition);
-                while(sqlDataReader.Read()){
-                  //sqlDataReader.Read();
-                  displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
-                }
+              string Search = "";
+          string Condition = "";
+          //HttpContext.Current.Response.AppendToLog("deliveredasdSearch" + Search);
+          // LinkButton lnk = sender as LinkButton;
+          // if(lnk!=null){
+          //     Search = lnk.ID.ToString();
+          // }
+		  // string parameter = "thir";//Request["__EVENTTARGET"];
+		  // Search = parameter.ToString();
+              // Condition = " where id = '"+Search+"'order by cost DESC";
+          string[] Output = new string[]{"id,","title,","username,","cost",",title"};
+          string Table = "info";
+          SqlDataReader sqlDataReader;
+          database.open();
+          // if(parameter!=null){
+              // Search = parameter.ToString();
+              //Condition = " where id = '"+Search+"'order by cost DESC";
+              sqlDataReader = database.SelectQuery(Output,Table,Condition);
+              while(sqlDataReader.Read()){
+                //sqlDataReader.Read();
+                displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+              }
+          // }else{
+            // sqlDataReader = database.SelectQuery(Output,Table,Condition);
+            // while(sqlDataReader.Read()){
+              // //sqlDataReader.Read();
+              // displaydata(sqlDataReader.GetString(0),sqlDataReader.GetString(1).ToString(),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(4).ToString());
+            // }
+          // k}
             }
 
         protected void displayfulldata(string id, string title, string username,string content){
@@ -362,7 +388,7 @@ public partial class Index : System.Web.UI.Page
           PlaceHolder1.Controls.Add(myhr);
           HtmlGenericControl myp1 = new HtmlGenericControl("p");
                   myp1.ID = "cardtitle2" + Guid.NewGuid().ToString("N");
-                  myp1.InnerHtml = "Posted on January 1, 2018 at 12:00 PM";
+                  myp1.InnerHtml = title;
           PlaceHolder1.Controls.Add(myp1);
           HtmlGenericControl myhr1 = new HtmlGenericControl("hr");
           PlaceHolder1.Controls.Add(myhr1);
@@ -440,17 +466,22 @@ public partial class Index : System.Web.UI.Page
         }
 
         protected void fLogin(object sender, EventArgs e){
-          Session["UserName"] = "";
-          Session["Pwd"] = "";
-          Response.Redirect("default.aspx");
+           Session["UserName"] = "";
+           Session["Pwd"] = "";
+           Response.Redirect("default.aspx");
+        }
+        protected void admin(object sender, EventArgs e){
+           Session["UserName"] = "";
+           Session["Pwd"] = "";
+           Response.Redirect("admin.aspx");
         }
 
         protected void fLogout(object sender, EventArgs e){
-          Session["UserName"] = "";
-          Session["Pwd"] = "";
-          login.Visible = true;
-          logout.Visible = false;
-          Response.Redirect("index.aspx");
+           Session["UserName"] = "";
+           Session["Pwd"] = "";
+          //login.Visible = true;
+          //logout.Visible = false;
+           Response.Redirect("Register.aspx");
         }
 
 }

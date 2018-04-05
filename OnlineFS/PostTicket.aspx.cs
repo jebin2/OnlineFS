@@ -54,10 +54,10 @@ public partial class PostTicket : System.Web.UI.Page
          id = (sqlDataReader.GetInt32(0)+1).ToString();
         //displaydata(sqlDataReader.GetString(1),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(5).ToString());
       }
-      if(pcontent.FileName != null){
-        path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName + id;
-        pcontent.PostedFile.SaveAs(path);
-      }
+      //if(pcontent.FileName != null){
+        //path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName + id;
+        //pcontent.PostedFile.SaveAs(path);
+      //}
       ///
       string insert_query = "insert into postticket values ('"+id+"','" + title + "','" + content + "','" + email + "','" + path + "','pending','"+UserName+"')";
       SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);

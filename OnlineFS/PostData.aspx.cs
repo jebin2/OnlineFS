@@ -25,7 +25,7 @@ public partial class PostData : System.Web.UI.Page
         validate = new Validate();
         database = new Database();
         checkuser();
-        if (validate.GetRole(UserName, Password) != "client")
+        if (validate.GetRole(UserName, Password) != "karomi")
         {
             Response.Redirect("default.aspx");
         }
@@ -53,14 +53,21 @@ public partial class PostData : System.Web.UI.Page
          id = (sqlDataReader.GetInt32(0)+1).ToString();
         //displaydata(sqlDataReader.GetString(1),sqlDataReader.GetString(2).ToString(),sqlDataReader.GetString(3).ToString(),sqlDataReader.GetString(5).ToString());
       }
-      if(pcontent.FileName != null){
-        path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName + id;
-        pcontent.PostedFile.SaveAs(path);
-      }
+      //if(pcontent.FileName != null){
+        //path = @"c:\Users\Jebin\source\repos\OnlineFS\Upload\" + pcontent.FileName + id;
+        //pcontent.PostedFile.SaveAs(path);
+      //}
       ///
       string insert_query = "insert into admindb values ('"+id+"','" + title + "','" + ccontent + "','" + keyword + "','" + path + "','pending','"+UserName+"','1')";
       SqlCommand sqlCommand = new SqlCommand(insert_query, sqlConnection);
       int stat = sqlCommand.ExecuteNonQuery();
+      clearAll();
+    }
+
+    protected void clearAll(){
+      pTextBox_title.Text = "";
+      pTextBox_description.Text = "";
+      pTextBox_keyword.Text = "";
     }
 
     protected void checkuser()
